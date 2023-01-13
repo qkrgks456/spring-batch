@@ -1,12 +1,22 @@
 spring:
+  profiles:
+    active: local
+---
+spring:
   config:
-    import: db.yaml
+    import: db-mysql.yaml
+    activate:
+      on-profile: local
+  batch:
+    jdbc:
+      initialize-schema: never
+---
+spring:
+  config:
+    import: db-h2.yaml
+    activate:
+      on-profile: h2
+  batch:
+    jdbc:
+      initialize-schema: embedded
 
-  jpa:
-    open-in-view: true
-    hibernate:
-      ddl-auto: none # validate # ddl option
-    properties:
-      hibernate:
-        format_sql: true
-        default_batch_fetch_size: 500

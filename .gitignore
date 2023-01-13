@@ -36,4 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 
-/src/main/resources/db.yaml
+/src/main/resources/db-mysql.yaml
+/src/main/resources/db-h2.yaml

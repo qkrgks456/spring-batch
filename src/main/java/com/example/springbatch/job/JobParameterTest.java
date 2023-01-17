@@ -2,6 +2,7 @@ package com.example.springbatch.job;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -9,9 +10,12 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Date;
+import java.util.Map;
+
 @Configuration
 @RequiredArgsConstructor
-public class JobInstance {
+public class JobParameterTest {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
@@ -31,6 +35,14 @@ public class JobInstance {
     public Step helloStep1() {
         return stepBuilderFactory.get("helloStep1")
                 .tasklet((contribution, chunkContext) -> {
+                    JobParameters jobParameters = contribution.getStepExecution().getJobExecution().getJobParameters();
+                    jobParameters.getString("name");
+                    jobParameters.getLong("seq");
+                    jobParameters.getDate("date");
+                    jobParameters.getDouble("age");
+
+                    Map<String, Object> map = chunkContext.getStepContext().getJobParameters();
+                    System.out.println("map = " + map);
                     System.out.println("step1 executed");
                     return RepeatStatus.FINISHED;
                 }).build();

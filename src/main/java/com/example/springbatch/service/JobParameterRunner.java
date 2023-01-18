@@ -8,11 +8,11 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
 
-@Service
 @RequiredArgsConstructor
 public class JobParameterRunner implements ApplicationRunner {
 

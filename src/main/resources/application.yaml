@@ -10,8 +10,18 @@ spring:
   batch:
     jdbc:
       initialize-schema: never
+      isolation-level-for-create: default
     job:
-      enabled: false
+      enabled: true
+      names: apiJob
+  jpa:
+    hibernate:
+      ddl-auto: none
+      format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug
 ---
 spring:
   config:

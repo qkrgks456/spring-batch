@@ -3,21 +3,22 @@ spring:
     active: local
 ---
 spring:
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: true
+      names: ${job.name:NONE}
   config:
     import: db-mysql.yaml
     activate:
       on-profile: local
-  batch:
-    jdbc:
-      initialize-schema: never
-      isolation-level-for-create: default
-    job:
-      enabled: true
-      names: apiJob
   jpa:
     hibernate:
       ddl-auto: none
       format_sql: true
+    open-in-view: true
+
 
 logging:
   level:

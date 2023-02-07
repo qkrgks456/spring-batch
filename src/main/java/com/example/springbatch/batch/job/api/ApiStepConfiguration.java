@@ -45,7 +45,7 @@ public class ApiStepConfiguration {
     private final ApiService2 apiService2;
     private final ApiService3 apiService3;
 
-    private int chunkSize = 10;
+    private final int chunkSize = 10;
 
     @Bean
     @Qualifier("apiMasterStep")
@@ -70,7 +70,7 @@ public class ApiStepConfiguration {
     @Bean
     public Step apiSlaveStep() {
         return stepBuilderFactory.get("apiSlaveStep")
-                .<Product, Product>chunk(chunkSize)
+                .<Product, ApiRequestVo>chunk(chunkSize)
                 .reader(itemReader(null))
                 .processor(itemProcessor())
                 .writer(itemWriter())
@@ -85,14 +85,14 @@ public class ApiStepConfiguration {
         return new JpaPagingItemReaderBuilder<Product>()
                 .pageSize(chunkSize)
                 .parameterValues(map)
-                .queryString("select p from Product p where type = :type")
+                .queryString("select p from Product p where type = :type order by id")
                 .entityManagerFactory(entityManagerFactory)
                 .name("jpaItemReader")
                 .build();
     }
 
     @Bean
-    public ItemProcessor itemProcessor() {
+    public ItemProcessor<Product, ApiRequestVo> itemProcessor() {
         Map<String, ItemProcessor<Product, ApiRequestVo>> processorMap = new HashMap<>();
         processorMap.put("1", item -> ApiRequestVo.builder()
                 .id(item.getId())

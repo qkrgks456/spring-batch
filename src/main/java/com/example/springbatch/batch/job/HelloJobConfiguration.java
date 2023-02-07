@@ -9,43 +9,29 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/*@Configuration*/
+@Configuration
 @RequiredArgsConstructor
 public class HelloJobConfiguration {
+
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
-    // job -> step -> tasklet
-    /*@Bean*/
+    @Bean
     public Job helloJob() {
         return jobBuilderFactory.get("helloJob")
                 .start(helloStep1())
-                .next(helloStep2())
                 .build();
     }
 
-   /* @Bean*/
+    @Bean
     public Step helloStep1() {
         return stepBuilderFactory.get("helloStep1")
                 .tasklet((contribution, chunkContext) -> {
-                    // tasklet은 무한반복 상태값을 리턴 해줘야 함
-                    System.out.println("===================");
-                    System.out.println("hello spring batch 1");
-                    System.out.println("===================");
                     return RepeatStatus.FINISHED;
+                    // return RepeatStatus.CONTINUABLE;
                 }).build();
     }
 
-    /*@Bean*/
-    public Step helloStep2() {
-        return stepBuilderFactory.get("helloStep2")
-                .tasklet((contribution, chunkContext) -> {
-                    // tasklet은 무한반복 상태값을 리턴 해줘야 함
-                    System.out.println("===================");
-                    System.out.println("hello spring batch 2");
-                    System.out.println("===================");
-                    return RepeatStatus.FINISHED;
-                }).build();
-    }
+
 
 }

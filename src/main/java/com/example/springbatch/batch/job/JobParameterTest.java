@@ -24,8 +24,8 @@ public class JobParameterTest {
     // JobInstance -> 매일 실행되는 각각의 Job
 
     /*@Bean*/
-    public Job helloJob() {
-        return jobBuilderFactory.get("helloJob")
+    public Job helloJob7() {
+        return jobBuilderFactory.get("helloJob7")
                 .start(helloStep1())
                 .next(helloStep2())
                 .build();

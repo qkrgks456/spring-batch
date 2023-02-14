@@ -22,8 +22,8 @@ public class JobInstanceTest {
     // JobInstance -> 매일 실행되는 각각의 Job
 
     @Bean
-    public Job helloJob() {
-        return jobBuilderFactory.get("helloJob")
+    public Job helloJob3() {
+        return jobBuilderFactory.get("helloJob3")
                 .start(helloStep1())
                 .next(helloStep2())
                 .build();
@@ -33,6 +33,7 @@ public class JobInstanceTest {
     public Step helloStep1() {
         return stepBuilderFactory.get("helloStep1")
                 .tasklet((contribution, chunkContext) -> {
+                    contribution.getExitStatus();
                     System.out.println("여기 비즈니스 로직");
                     return RepeatStatus.FINISHED;
                 })

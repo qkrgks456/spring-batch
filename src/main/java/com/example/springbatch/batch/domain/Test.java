@@ -1,13 +1,20 @@
 package com.example.springbatch.batch.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "test")
+@DynamicInsert
+@DynamicUpdate
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Test {
 
     @Id
@@ -17,8 +24,11 @@ public class Test {
     @Column(name = "name")
     private String name;
 
-    @Setter
     @Column(name = "age")
     private int age;
+
+    @Setter
+    @Column(name = "ch")
+    private String ch;
 
 }

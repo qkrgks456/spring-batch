@@ -17,14 +17,14 @@ public class HelloJobConfiguration {
     private final StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public Job helloJob() {
-        return jobBuilderFactory.get("helloJob")
-                .start(helloStep1())
+    public Job helloJob123() {
+        return jobBuilderFactory.get("helloJob123")
+                .start(helloStep87())
                 .build();
     }
 
     @Bean
-    public Step helloStep1() {
+    public Step helloStep87() {
         return stepBuilderFactory.get("helloStep1")
                 .tasklet((contribution, chunkContext) -> {
                     return RepeatStatus.FINISHED;

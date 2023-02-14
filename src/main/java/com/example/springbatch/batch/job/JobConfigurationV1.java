@@ -21,17 +21,17 @@ public class JobConfigurationV1 {
 
 
     @Bean
-    public Job helloJob() {
-        return jobBuilderFactory.get("helloJob")
-                .start(step1(null)) // 컴파일 오류나지 않도록 null 설정
-                .next(step2())
+    public Job helloJob2() {
+        return jobBuilderFactory.get("hellojob2")
+                .start(step5(null)) // 컴파일 오류나지 않도록 null 설정
+                .next(step6())
                 .build();
     }
 
     @Bean
     @JobScope
-    public Step step1(@Value("#{jobParameters['requestDate']}") String requestDate) {
-        return stepBuilderFactory.get("step1")
+    public Step step5(@Value("#{jobParameters['requestDate']}") String requestDate) {
+        return stepBuilderFactory.get("step5")
                 .tasklet((contribution, chunkContext) -> {
                     System.out.println("requestDate = " + requestDate);
                     return RepeatStatus.FINISHED;
@@ -40,8 +40,8 @@ public class JobConfigurationV1 {
     }
 
     @Bean
-    public Step step2() {
-        return stepBuilderFactory.get("step2")
+    public Step step6() {
+        return stepBuilderFactory.get("step6")
                 .tasklet((contribution, chunkContext) -> {
                     System.out.println("step2 executed");
                     return RepeatStatus.FINISHED;

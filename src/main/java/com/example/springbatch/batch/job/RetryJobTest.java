@@ -4,6 +4,7 @@ import com.example.springbatch.batch.domain.Test;
 import com.example.springbatch.batch.domain.TestVo;
 import com.example.springbatch.batch.listner.ReaderListener;
 import com.example.springbatch.batch.listner.TestListener;
+import com.example.springbatch.batch.listner.WriterListener;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -32,7 +33,8 @@ public class RetryJobTest {
     private final DataSource dataSource;
     private final TestListener testListener;
     private final ReaderListener readerListener;
-    private final int chunkSize = 30;
+    private final WriterListener writerListener;
+    private final int chunkSize = 5;
 
     @Bean
     public Job retryJob() {
@@ -46,8 +48,9 @@ public class RetryJobTest {
         return stepBuilderFactory.get("retryStep")
                 .<Test, TestVo>chunk(chunkSize)
                 .reader(retryReader())
-                /*.processor(retryProcessor())*/
+                .processor(jdbcProcessor())
                 .writer(retryWriter())
+                .listener(writerListener)
                 .build();
     }
 
@@ -74,14 +77,20 @@ public class RetryJobTest {
     }*/
 
     @Bean
-    public ItemProcessor<Test, TestVo> retryProcessor() {
+    public ItemProcessor<Test, TestVo> jdbcProcessor() {
         return item -> {
             Thread.sleep(1000);
-            System.out.println("name : " + item.getName());
             TestVo testVo = new TestVo();
             testVo.setId(item.getId());
-            testVo.setCh("변경됨");
             return testVo;
+        };
+    }
+
+    @Bean
+    public ItemProcessor<Test, Test> jpaProcessor() {
+        return item -> {
+            item.setCh("변경됨");
+            return item;
         };
     }
     /*@Bean
@@ -100,12 +109,13 @@ public class RetryJobTest {
                 .beanMapped()
                 .build();
     }
-    /*@Bean
+
+    @Bean
     public JpaItemWriter<Test> jpaWriter() {
         return new JpaItemWriterBuilder<Test>()
                 .entityManagerFactory(entityManagerFactory)
                 .build();
-    }*/
+    }
 
    /* @Bean
     public AsyncItemWriter<Test> asyncItemWriter() {

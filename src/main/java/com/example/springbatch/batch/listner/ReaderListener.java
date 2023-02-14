@@ -9,13 +9,12 @@ public class ReaderListener implements ItemReadListener<Test> {
 
     @Override
     public void beforeRead() {
-
+        System.out.println("읽기 전");
     }
 
     @Override
     public void afterRead(Test item) {
-        System.out.println(Thread.currentThread().getName());
-        System.out.println(item.getId());
+        System.out.println("읽기 후");
     }
 
     @Override

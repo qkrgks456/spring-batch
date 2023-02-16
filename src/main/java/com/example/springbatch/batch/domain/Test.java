@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "test")
@@ -30,5 +31,8 @@ public class Test {
     @Setter
     @Column(name = "ch")
     private String ch;
+
+    @Column(name = "create_date")
+    private String createDate;
 
 }

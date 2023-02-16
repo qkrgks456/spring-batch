@@ -7,7 +7,7 @@ spring:
     jdbc:
       initialize-schema: never
     job:
-      enabled: true
+      enabled: false
       names: ${job.name:NONE}
   config:
     import: db-mysql.yaml
